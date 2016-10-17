@@ -4,7 +4,7 @@ import { expect } from 'chai';
 describe('commitStream()', () => {
   describe('default config', () => {
     it('should return init commit first', (done) => {
-      const commit$ = commitStream({}).take(1);
+      const commit$ = commitStream({}).last();
       commit$.subscribe((commit) => {
         expect(commit).to.equal('init');
       },

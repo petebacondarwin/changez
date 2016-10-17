@@ -38,5 +38,6 @@ export function commitStream(options: IOptions) : Observable<string> {
 
   return Observable.fromStream(child.stdout)
             .concatMap((item: string) => item.split(SPLIT_MARKER))
-            .map((item: string) => item.trim());
+            .map((item: string) => item.trim())
+            .filter((item: string) => item);
 }
