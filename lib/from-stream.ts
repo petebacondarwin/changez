@@ -6,20 +6,20 @@ function fromStreamFn(stream: Readable, finishEventName: string = 'end', dataEve
   stream.pause();
 
   return Observable.create(function (observer: Observer<string>) {
-    function dataHandler(data) { observer.next(data); }
-    function errorHandler(err) { observer.error(err); }
-    function endHandler() { observer.complete(); }
+    function next(data) { observer.next(data); }
+    function error(err) { observer.error(err); }
+    function complete() { observer.complete(); }
 
-    stream.addListener(dataEventName, dataHandler);
-    stream.addListener('error', errorHandler);
-    stream.addListener(finishEventName, endHandler);
+    stream.addListener(dataEventName, next);
+    stream.addListener('error', error);
+    stream.addListener(finishEventName, complete);
 
     stream.resume();
 
     return function () {
-      stream.removeListener(dataEventName, dataHandler);
-      stream.removeListener('error', errorHandler);
-      stream.removeListener(finishEventName, endHandler);
+      stream.removeListener(dataEventName, next);
+      stream.removeListener('error', error);
+      stream.removeListener(finishEventName, complete);
     };
   }).publish().refCount();
 }
