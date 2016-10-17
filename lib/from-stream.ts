@@ -6,7 +6,7 @@ function fromStreamFn(stream: Readable, finishEventName: string = 'end', dataEve
   stream.pause();
 
   return Observable.create(function (observer: Observer<string>) {
-    function dataHandler(data) { console.log(data); observer.next(data); }
+    function dataHandler(data) { observer.next(data); }
     function errorHandler(err) { observer.error(err); }
     function endHandler() { observer.complete(); }
 

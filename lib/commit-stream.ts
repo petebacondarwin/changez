@@ -21,9 +21,13 @@ export function commitStream(options: IOptions) : Observable<string> {
   options.to = options.to || 'HEAD';
 
   const gitFormat = `--format=${options.format}%n${SPLIT_MARKER}`;
-  const gitFromTo = options.from ? [options.from, options.to].join("..") : options.to;
+  const gitFromTo = options.from ? `${options.from}..${options.to}` : options.to;
 
-  const args = [];
+  const args = [
+    'log',
+    gitFormat,
+    gitFromTo
+  ];
 
   if (options.debug) {
     options.debug('Your git-log command is:\ngit ' + args.join(' '));
@@ -32,7 +36,7 @@ export function commitStream(options: IOptions) : Observable<string> {
   let isError = false;
   const child = execFile('git', args, { maxBuffer: Infinity });
 
-  const stdout$ = Observable.fromStream(child.stdout);
-
-  return stdout$.concatMap((item: string) => item.split(SPLIT_MARKER));
+  return Observable.fromStream(child.stdout)
+            .concatMap((item: string) => item.split(SPLIT_MARKER))
+            .map((item: string) => item.trim());
 }
