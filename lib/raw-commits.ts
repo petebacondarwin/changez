@@ -3,7 +3,6 @@ import 'rxjs/add/operator/concatMap';
 import './from-stream';
 import { execFile } from 'child_process';
 
-interface ICommit {}
 interface IOptions {
   format?: string;
   from?: string;
@@ -13,10 +12,11 @@ interface IOptions {
 
 const SPLIT_MARKER = '------------------------ >8 ------------------------';
 
-export function commitStream(options: IOptions) : Observable<string> {
+export function rawCommits(options: IOptions) : Observable<string> {
 
   options = options || {};
-  options.format = options.format || '%B';
+  // default is format is hash-subject-body
+  options.format = options.format || '%H%n%s%n%b';
   options.from = options.from || '';
   options.to = options.to || 'HEAD';
 

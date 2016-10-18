@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers ts:ts-node/register --reporter spec"
+    "test": "mocha --compilers ts:ts-node/register -R spec lib/**/*.spec.ts"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "chai": "^3.5.0",
     "mocha": "^3.1.2",
     "ts-node": "^1.6.0",
+    "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "typings": "^1.4.0"
   },
