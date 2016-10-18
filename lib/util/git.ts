@@ -47,6 +47,3 @@ export class GitRepo {
     return Observable.fromStream(child.stdout);
   }
 }
-
-
-///
