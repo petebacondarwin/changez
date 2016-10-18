@@ -54,6 +54,16 @@ describe('GitRepo', () => {
       });
     });
   });
+
+
+  describe('latestTag', () => {
+    it('should return an observable to the most recent tag for the given branch', (done) => {
+      repo.latestTag({ branch: 'test-branch' })
+        .subscribe(observer(done, (tag: string) => {
+          expect(tag).to.equal('v1.0.0');
+        }));
+    });
+  });
 });
 
 function observer(done, checkFn) {

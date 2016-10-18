@@ -28,14 +28,12 @@ export class GitRepo {
   }
 
   latestTag({branch = '', debug}: {branch: string, debug?: (value: string) => void}) {
-    const args = [
-      '--tags',
-      '--abbrev=0',
-      branch
-    ];
-    return this.executeCommand('describe', args, debug);
+    return this.executeCommand('describe', ['--tags', '--abbrev=0', branch], debug);
   }
 
+  commonAncestor({left, right, debug}: {left: string, right: string, debug?: (value: string) => void}) {
+    return this.executeCommand('merge-base', [left, right], debug);
+  }
 
   private executeCommand(command: string, args: string[], debug: (value: string) => void) {
     args.unshift(command);
@@ -44,6 +42,6 @@ export class GitRepo {
       debug('Your git-log command is:\ngit ' + args.join(' '));
     }
     const child = execFile('git', args, { maxBuffer: Infinity, cwd: this.pathToRepo });
-    return Observable.fromStream(child.stdout);
+    return Observable.fromStream(child.stdout).map((result) => result.trim());
   }
 }
