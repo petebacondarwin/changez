@@ -55,12 +55,20 @@ describe('GitRepo', () => {
     });
   });
 
-
   describe('latestTag', () => {
     it('should return an observable to the most recent tag for the given branch', (done) => {
       repo.latestTag({ branch: 'test-branch' })
         .subscribe(observer(done, (tag: string) => {
           expect(tag).to.equal('v1.0.0');
+        }));
+    });
+  });
+
+  describe('commonAncestor', () => {
+    it('should return an observable to the most recent ancestor', (done) => {
+      repo.commonAncestor({ left: 'test-branch', right: 'master' })
+        .subscribe(observer(done, (commit: string) => {
+          expect(commit).to.equal('196ba6cad9dee140079ed48cf48088c86050c28a');
         }));
     });
   });
