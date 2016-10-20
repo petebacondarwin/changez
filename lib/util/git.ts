@@ -1,8 +1,5 @@
-import { resolve } from 'path';
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/concatMap';
-import './from-stream';
-import { execFile } from 'child_process';
+import {resolve} from 'path';
+import {exec, ExecOptions} from 'shelljs';
 
 const SPLIT_MARKER = '------------------------ >8 ------------------------';
 
@@ -18,11 +15,11 @@ export class GitRepo {
   rawCommits({debug, format = '%H%n%s%n%b', from = '', to = 'HEAD'}:
               {debug?: (value: string) => void, format?: string, from?: string, to?: string}) {
 
-    const gitFormat = `--format=${format}%n${SPLIT_MARKER}`;
+    const gitFormat = `--format="${format}%n${SPLIT_MARKER}"`;
     const gitFromTo = from ? `${from}..${to}` : to;
 
     return this.executeCommand('log', [gitFormat, gitFromTo], debug)
-              .concatMap((item: string) => item.split(SPLIT_MARKER))
+              .split(SPLIT_MARKER)
               .map((item: string) => item.trim())
               .filter((item: string) => !!item);
   }
@@ -35,13 +32,13 @@ export class GitRepo {
     return this.executeCommand('merge-base', [left, right], debug);
   }
 
-  private executeCommand(command: string, args: string[], debug: (value: string) => void) {
+  private executeCommand(command: string, args: string[], debug: (value: string) => void): string {
     args.unshift(command);
 
     if (debug) {
       debug('Your git-log command is:\ngit ' + args.join(' '));
     }
-    const child = execFile('git', args, { maxBuffer: Infinity, cwd: this.pathToRepo });
-    return Observable.fromStream(child.stdout).map((result) => result.trim()) as Observable<string>;
+    const result = exec(['git', ...args].join(' '), { cwd: this.pathToRepo, silent: true } as ExecOptions) as any;
+    return result.stdout.trim();
   }
 }

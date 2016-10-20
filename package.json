@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers ts:ts-node/register -R spec lib/**/*.spec.ts"
+    "test": "mocha --compilers ts:ts-node/register -R spec 'lib/**/*.spec.ts'"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +18,10 @@
     "typings": "^1.4.0"
   },
   "dependencies": {
-    "rxjs": "^5.0.0-rc.1"
+    "@types/chai": "^3.4.34",
+    "@types/es6-shim": "^0.31.32",
+    "@types/shelljs": "^0.3.32",
+    "rxjs": "^5.0.0-rc.1",
+    "shelljs": "^0.7.4"
   }
 }

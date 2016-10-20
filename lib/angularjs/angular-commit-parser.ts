@@ -30,7 +30,10 @@ export class AngularCommitParser implements ICommitParser {
       header = header.replace(REVERT_MARKER, '');
     }
 
-    [, commit.type, commit.scope, commit.title] = FORMAT_MATCHER.exec(header);
+    const matches = FORMAT_MATCHER.exec(header);
+    if (!matches) return null;
+
+    [, commit.type, commit.scope, commit.title] = matches;
     let bcLine = 0;
     while(bcLine < bodyLines.length) {
       if (BC_MARKER.test(bodyLines[bcLine])) break;
@@ -41,6 +44,15 @@ export class AngularCommitParser implements ICommitParser {
     commit.closes = [];
     commit.body = extractCloses(commit.body, commit.closes);
     commit.bcMessage = extractCloses(commit.bcMessage, commit.closes);
+
+    if (commit.isRevert) {
+      // Create a revert commit that matches this commit
+      const revertCommit = new Commit();
+      revertCommit.type = commit.type;
+      revertCommit.scope = commit.scope;
+      revertCommit.title = commit.title;
+      commit.revertCommit = revertCommit;
+    }
 
     return commit;
   }
