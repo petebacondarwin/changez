@@ -18,7 +18,7 @@ describe('Changelog', () => {
   describe('getBranchCommits()', () => {
     it('should parse and filter the raw commits', () => {
       const commits = changelog.getCommits('test-1', 'diverge-point')
-        .map(commit => commit.toString())
+        .map(commit => commit.toString());
       expect(commits).to.eql([
         'revert:feat(B): title B',
         'feat(E): title E',
@@ -35,7 +35,7 @@ describe('Changelog', () => {
   describe('getChanges()', () => {
     it('should filter commits that are in both branches', () => {
       const commits = changelog.getChanges('test-1', 'test-2')
-          .map(commit => commit.toString())
+          .map(commit => commit.toString());
 
       console.log(commits);
       expect(commits).to.eql([
