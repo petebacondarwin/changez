@@ -24,7 +24,7 @@ export class GitRepo {
     return this.executeCommand('log', [gitFormat, gitFromTo], debug)
               .concatMap((item: string) => item.split(SPLIT_MARKER))
               .map((item: string) => item.trim())
-              .filter((item: string) => item);
+              .filter((item: string) => !!item);
   }
 
   latestTag({branch = '', debug}: {branch: string, debug?: (value: string) => void}) {
@@ -42,6 +42,6 @@ export class GitRepo {
       debug('Your git-log command is:\ngit ' + args.join(' '));
     }
     const child = execFile('git', args, { maxBuffer: Infinity, cwd: this.pathToRepo });
-    return Observable.fromStream(child.stdout).map((result) => result.trim());
+    return Observable.fromStream(child.stdout).map((result) => result.trim()) as Observable<string>;
   }
 }
