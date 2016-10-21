@@ -15,34 +15,35 @@ describe('Changelog', () => {
     changelog = new Changelog(parser, repo);
   });
 
-  describe('getBranchCommits()', () => {
-    it('should parse and filter the raw commits', () => {
-      const commits = changelog.getCommits('test-1', 'diverge-point')
-        .map(commit => commit.toString());
-      expect(commits).to.eql([
-        'revert:feat(B): title B',
-        'feat(E): title E',
-        'perf(D): title D',
-        'feat(B): title B'
-      ]);
-    });
-  });
-
-  describe('filterBranch()', () => {
-
-  });
-
   describe('getChanges()', () => {
     it('should filter commits that are in both branches', () => {
       const commits = changelog.getChanges('test-1', 'test-2')
           .map(commit => commit.toString());
 
-      console.log(commits);
       expect(commits).to.eql([
-        'feat(B): title B',
+        // 'revert:feat(B): title B',  -- revert of commit below
         'feat(E): title E',
-        'perf(D): title D', // this line is in the "stable" branch so it should be filtered out
-        'revert:feat(B): title B'
+        // 'refactor(B): refactor B',  -- not whitelisted
+        // 'perf(D): title D',         -- already in test-2
+        // 'chore(C): title C',        -- already in test-2
+        // 'feat(B): title B',         -- reverted in commit above
+        'fix(A): title A',
+        // 'docs(README): add it'      -- not whitelisted
+      ]);
+    });
+  });
+
+  describe('getCommits()', () => {
+    it('should parse and filter the raw commits', () => {
+      const commits = changelog.getCommits('diverge-point', 'test-1')
+        .map(commit => commit.toString());
+      expect(commits).to.eql([
+        'revert:feat(B): title B',
+        'feat(E): title E',
+        'refactor(B): refactor B',
+        'perf(D): title D',
+        'chore(C): title C',
+        'feat(B): title B'
       ]);
     });
   });
