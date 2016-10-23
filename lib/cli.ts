@@ -7,7 +7,7 @@ import {GitRepo, IBlueprint, Changelog} from '.';
 const log = require('simple-node-logger').createSimpleLogger();
 
 program
-  .version(require('../package.json').version)
+  .version(require('../../package.json').version)
   .usage('[options] [branch]')
   .description('Generate a changelog for the specified branch (defaulting to the current branch)')
   .option('-v, --version-number <version>', 'The version of the new release')
