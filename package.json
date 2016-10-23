@@ -1,6 +1,6 @@
 {
   "name": "changez",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Yet another flexible changelog generator.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,7 +22,7 @@
     "@types/nunjucks": "0.0.32",
     "@types/shelljs": "^0.3.32",
     "chai": "^3.5.0",
-    "changez-angular": "^1.0.0",
+    "changez-angular": "^1.0.1",
     "mocha": "^3.1.2",
     "ts-node": "^1.6.0",
     "tslint": "^3.15.1",

@@ -1,9 +1,4 @@
-import {expect} from 'chai';
-import {Changelog} from './changelog';
-import {Commit} from './commit';
-import {GitRepo} from './util/git';
-import {IBlueprint} from './blueprint';
-
+"use strict";
 // TODO: either do this properly or just import changez-angular
 // class MockBlueprint implements IBlueprint {
 //   name: 'mock';
@@ -19,23 +14,19 @@ import {IBlueprint} from './blueprint';
 //     return left.raw.split('\n')[1] === right.raw.split('\n')[1];
 //   }
 // }
-
 // describe('Changelog', () => {
 //   let blueprint: IBlueprint;
 //   let repo: GitRepo;
 //   let changelog: Changelog;
-
 //   beforeEach(() => {
 //     blueprint = new MockBlueprint();
 //     repo = new GitRepo();
 //     changelog = new Changelog(blueprint, repo, { info() {} });
 //   });
-
 //   describe('getChanges()', () => {
 //     it('should filter commits that are in both branches', () => {
 //       const commits = changelog.getChanges('test-1', 'test-2')
 //           .map(commit => commit.toString());
-
 //       expect(commits).to.eql([
 //         // 'revert:feat(B): title B',  -- revert of commit below
 //         'feat(E): title E',
@@ -48,8 +39,6 @@ import {IBlueprint} from './blueprint';
 //       ]);
 //     });
 //   });
-
 //   describe('render()', () => {
-
 //   });
-// });
+// }); 
