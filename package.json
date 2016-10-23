@@ -1,10 +1,10 @@
 {
   "name": "changez",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Yet another flexible changelog generator.",
-  "bin": "./bin/changelog.js",
+  "bin": "./bin/changez.js",
   "scripts": {
-    "start": "node ./bin/changelog.js",
+    "start": "node ./bin/changez.js",
     "test": "mocha --compilers ts:ts-node/register -R spec 'lib/**/*.spec.ts'"
   },
   "author": "",
