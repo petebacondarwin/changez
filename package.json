@@ -2,15 +2,13 @@
   "name": "changez",
   "version": "1.0.0",
   "description": "Yet another flexible changelog generator.",
-  "bin": {
-    "changez": "node ./bin/changelog.js"
-  },
+  "bin": "./bin/changelog.js",
   "scripts": {
     "start": "node ./bin/changelog.js",
     "test": "mocha --compilers ts:ts-node/register -R spec 'lib/**/*.spec.ts'"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/commander": "^2.3.30",
