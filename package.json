@@ -1,7 +1,7 @@
 {
   "name": "changez",
   "version": "0.1.0",
-  "description": "",
+  "description": "Yet another flexible changelog generator.",
   "bin": {
     "changez": "node ./bin/changelog.js"
   },
@@ -12,8 +12,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^3.4.34",
     "@types/commander": "^2.3.30",
+    "@types/es6-shim": "^0.31.32",
     "@types/node": "^6.0.45",
+    "@types/nunjucks": "0.0.32",
+    "@types/shelljs": "^0.3.32",
     "chai": "^3.5.0",
     "mocha": "^3.1.2",
     "ts-node": "^1.6.0",
@@ -22,10 +26,6 @@
     "typings": "^1.4.0"
   },
   "dependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/es6-shim": "^0.31.32",
-    "@types/nunjucks": "0.0.32",
-    "@types/shelljs": "^0.3.32",
     "commander": "^2.9.0",
     "nunjucks": "^2.5.2",
     "rxjs": "^5.0.0-rc.1",
