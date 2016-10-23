@@ -1,3 +1,4 @@
+import {resolve} from 'path';
 import {Commit} from '../../commit';
 import {IBlueprint} from '../../blueprint';
 
@@ -23,6 +24,14 @@ export function setWhitelist(value: string[]) {
 export class AngularBlueprint implements IBlueprint {
 
   name = 'AngularJS';
+
+  getTemplateFolder(): string {
+    return resolve(__dirname, 'templates');
+  }
+
+  getTemplateName(): string {
+    return 'changelog.md';
+  }
 
   parseMessage(message: string): Commit {
     const commit = new Commit(message);

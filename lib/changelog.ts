@@ -1,9 +1,12 @@
+import * as nunjucks from 'nunjucks';
 import {Commit} from './commit';
 import {IBlueprint} from './blueprint';
 import {GitRepo} from './util/git';
 
 export class Changelog {
-  constructor(private parser: IBlueprint, private repo: GitRepo, private log) {}
+  constructor(private blueprint: IBlueprint, private repo: GitRepo, private log) {
+    nunjucks.configure(blueprint.getTemplateFolder(), {});
+  }
 
   // Get a list of commits in the fromBranch that were not cherry-picked from the excludeBranch
   getChanges(fromBranch: string, excludeBranch?: string) {
@@ -31,38 +34,41 @@ export class Changelog {
     return changes;
   }
 
+  render(options: {commits: Commit[], version?: string, codename?: string, date?: Date}) {
+    return nunjucks.render(this.blueprint.getTemplateName(), options);
+  }
+
   // Get a list of commits between `from` and `to`
-  getCommits(from: string, to: string): Commit[] {
+  protected getCommits(from: string, to: string): Commit[] {
     return this.repo.rawCommits({ to, from })
-      .map(commit => this.parser.parseMessage(commit))
+      .map(commit => this.blueprint.parseMessage(commit))
       .filter(commit => !!commit);
   }
 
   // Filter out commits from `commits` that match commits in `excludes`
-  excludeCommits(commits: Commit[], excludes: Commit[]) {
+  protected excludeCommits(commits: Commit[], excludes: Commit[]) {
     return commits.filter(commit => !excludes.some(exclude => {
-      const equal = this.parser.compareCommits(commit, exclude);
+      const equal = this.blueprint.compareCommits(commit, exclude);
       return equal;
     }));
   }
 
   // Use the current parser to filter the commit stream
-  filterCommits(commit: Commit[]) {
-    return commit.filter(commit => commit && this.parser.filterCommit(commit));
+  protected filterCommits(commit: Commit[]) {
+    return commit.filter(commit => commit && this.blueprint.filterCommit(commit));
   }
 
-  filterReverts(commits: Commit[]): Commit[] {
+  protected filterReverts(commits: Commit[]): Commit[] {
 
     const revertsToRemove: { [key: string]: Commit } = {};
     const reverts = commits.filter(commit => commit.isRevert);
 
     let filteredCommits = commits.filter(commit => {
       const revert = find(reverts, commit, (revert, commit) =>
-                        this.parser.compareCommits(revert.revertCommit, commit));
+                        this.blueprint.compareCommits(revert.revertCommit, commit));
       if (revert) revertsToRemove[revert.hash] = revert;
       return !revert;
     });
-
 
     filteredCommits = filteredCommits.filter(commit => !revertsToRemove[commit.hash]);
     return filteredCommits;
