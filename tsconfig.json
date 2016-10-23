@@ -1,8 +1,14 @@
 {
     "compilerOptions": {
         "module": "commonjs",
+        "target": "es5",
+        "outDir": "dist",
         "typeRoots": [
           "node_modules/@types"
         ]
-    }
+    },
+    "files": [
+        "lib/index.ts",
+        "lib/cli.ts"
+    ]
 }

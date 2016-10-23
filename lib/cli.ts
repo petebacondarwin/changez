@@ -1,7 +1,8 @@
+#!/usr/bin/env node
 import {resolve} from 'path';
 import {writeFileSync} from 'fs';
 import * as program from 'commander';
-import {GitRepo, IBlueprint, Changelog} from '../lib';
+import {GitRepo, IBlueprint, Changelog} from '.';
 
 const log = require('simple-node-logger').createSimpleLogger();
 
