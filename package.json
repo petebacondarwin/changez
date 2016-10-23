@@ -1,6 +1,6 @@
 {
   "name": "changez",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Yet another flexible changelog generator.",
   "main": "./dist/index.js",
   "bin": "./dist/cli.js",
