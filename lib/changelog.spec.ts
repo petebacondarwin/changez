@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {Changelog} from './changelog';
 import {GitRepo} from './util/git';
 import {IBlueprint} from './blueprint';
-import {AngularBlueprint} from './blueprints/angularjs';
+import {AngularBlueprint} from 'changez-angular';
 
 describe('Changelog', () => {
   let parser: IBlueprint;

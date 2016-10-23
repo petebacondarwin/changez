@@ -7,9 +7,5 @@
         "typeRoots": [
           "node_modules/@types"
         ]
-    },
-    "files": [
-        "lib/index.ts",
-        "lib/cli.ts"
-    ]
+    }
 }
