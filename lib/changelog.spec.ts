@@ -1,18 +1,18 @@
 import {expect} from 'chai';
 import {Changelog} from './changelog';
 import {GitRepo} from './util/git';
-import {ICommitParser} from './commit-parser';
-import {AngularCommitParser} from './angularjs/angular-commit-parser';
+import {IBlueprint} from './blueprint';
+import {AngularBlueprint} from './blueprints/angularjs';
 
 describe('Changelog', () => {
-  let parser: ICommitParser;
+  let parser: IBlueprint;
   let repo: GitRepo;
   let changelog: Changelog;
 
   beforeEach(() => {
-    parser = new AngularCommitParser();
+    parser = new AngularBlueprint();
     repo = new GitRepo();
-    changelog = new Changelog(parser, repo);
+    changelog = new Changelog(parser, repo, { info() {} });
   });
 
   describe('getChanges()', () => {

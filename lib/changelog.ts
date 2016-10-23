@@ -1,21 +1,33 @@
 import {Commit} from './commit';
-import {ICommitParser} from './commit-parser';
+import {IBlueprint} from './blueprint';
 import {GitRepo} from './util/git';
 
 export class Changelog {
-  constructor(public parser: ICommitParser, public repo: GitRepo) {}
+  constructor(private parser: IBlueprint, private repo: GitRepo, private log) {}
 
   // Get a list of commits in the fromBranch that were not cherry-picked from the excludeBranch
-  getChanges(fromBranch: string, excludeBranch: string) {
+  getChanges(fromBranch: string, excludeBranch?: string) {
 
     const lastTagInFromBranch = this.repo.latestTag({branch: fromBranch});
     const commonCommit = this.repo.commonAncestor({left: fromBranch, right: excludeBranch});
-    const excludeCommits = this.getCommits(commonCommit, excludeBranch);
 
     let changes = this.getCommits(lastTagInFromBranch, fromBranch);
-    changes = this.excludeCommits(changes, excludeCommits);
+    this.log.info(`Found ${changes.length} commits from "${fromBranch}" since tag "${lastTagInFromBranch}" to include.`);
+
+    if (excludeBranch) {
+      const excludeCommits = this.getCommits(commonCommit, excludeBranch);
+        this.log.info(`Found ${excludeCommits.length} commits from "${excludeBranch}" to exclude, since "${fromBranch}" split at "${commonCommit}".`);
+      changes = this.excludeCommits(changes, excludeCommits);
+    }
+
+    const preRevertFilterCount = changes.length;
     changes = this.filterReverts(changes);
+    this.log.info(`Removed ${preRevertFilterCount - changes.length} revert related commits.`);
+
+    const preBlueprintFilterCount = changes.length;
     changes = this.filterCommits(changes);
+    this.log.info(`Removed ${preBlueprintFilterCount - changes.length} blueprint filtered commits.`);
+
     return changes;
   }
 
@@ -50,6 +62,7 @@ export class Changelog {
       if (revert) revertsToRemove[revert.hash] = revert;
       return !revert;
     });
+
 
     filteredCommits = filteredCommits.filter(commit => !revertsToRemove[commit.hash]);
     return filteredCommits;

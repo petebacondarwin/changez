@@ -9,8 +9,11 @@ export class Commit {
   bcMessage: string;
   closes: string[];
 
+  constructor(public raw: string = '') {}
+
   toString() {
-    return `${this.isRevert?'revert:':''}${this.type}(${this.scope}): ${this.title}`;
+    const revertMarker = this.isRevert ? 'revert:' : '';
+    return `${revertMarker}${this.type}(${this.scope}): ${this.title}`;
   }
 }
 

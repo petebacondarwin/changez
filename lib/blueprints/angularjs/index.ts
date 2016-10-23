@@ -1,7 +1,7 @@
-import {Commit} from '../commit';
-import {ICommitParser} from '../commit-parser';
+import {Commit} from '../../commit';
+import {IBlueprint} from '../../blueprint';
 
-const REVERT_MARKER = 'revert:';
+const REVERT_MATCHER = /^(revert:|Revert )(.+)/;
 
 //                      1111111  2222222         3333
 const FORMAT_MATCHER = /([^(]+)\(([^)]+)\)\s*:\s*(.+)/;
@@ -12,35 +12,43 @@ const BC_MARKER = /^BREAKING CHANGE/;
 //                      1111111111111111111111111111111111111111111111
 //                       22222222222222 4444444444444 666666666666666    8888888888888888888888888
 //                              33333       5555555           77777       9999999999999999 101010
-const CLOSES_MATCHER = /\s+((closes(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+(([^\/]+\/[^\/]+)?(#\d+))\s+/
+const CLOSES_MATCHER = /\s+((closes(s|d)?)|(fix(es|ed)?)|(resolve(s|d)?))\s+(([^\/]+\/[^\/]+)?(#\d+))\s+/;
 
+let typeWhiteList = ['feat', 'fix', 'perf'];
 
-export class AngularCommitParser implements ICommitParser {
+export function setWhitelist(value: string[]) {
+  typeWhiteList = value;
+}
 
-  typeWhiteList = ['feat', 'fix', 'perf'];
+export class AngularBlueprint implements IBlueprint {
 
-  parseMessage(message: string) : Commit {
-    const commit = new Commit();
+  name = 'AngularJS';
+
+  parseMessage(message: string): Commit {
+    const commit = new Commit(message);
     let [hash, header, ...bodyLines] = message.split('\n');
 
     commit.hash = hash;
 
-    if (startsWith(header, REVERT_MARKER)) {
+    header = header.replace(REVERT_MATCHER, (_, revertMarker, rest: string) => {
       commit.isRevert = true;
-      header = header.replace(REVERT_MARKER, '');
-    }
+      if (rest.indexOf('"') === 0 && rest.lastIndexOf('"') === rest.length - 1) {
+        rest = rest.substring(1, rest.length - 1);
+      }
+      return rest;
+    });
 
     const matches = FORMAT_MATCHER.exec(header);
     if (!matches) return null;
 
     [, commit.type, commit.scope, commit.title] = matches;
     let bcLine = 0;
-    while(bcLine < bodyLines.length) {
+    while (bcLine < bodyLines.length) {
       if (BC_MARKER.test(bodyLines[bcLine])) break;
       bcLine += 1;
     }
     commit.body = bodyLines.slice(0, bcLine).join('\n');
-    commit.bcMessage = bodyLines.slice(bcLine+1).join('\n');
+    commit.bcMessage = bodyLines.slice(bcLine + 1).join('\n');
     commit.closes = [];
     commit.body = extractCloses(commit.body, commit.closes);
     commit.bcMessage = extractCloses(commit.bcMessage, commit.closes);
@@ -58,7 +66,7 @@ export class AngularCommitParser implements ICommitParser {
   }
 
   filterCommit(commit: Commit) {
-    return this.typeWhiteList.indexOf(commit.type) !== -1;
+    return typeWhiteList.indexOf(commit.type) !== -1;
   }
 
   compareCommits(left: Commit, right: Commit) {
@@ -67,13 +75,11 @@ export class AngularCommitParser implements ICommitParser {
 }
 
 
-function startsWith(haystack: string, needle: string) {
-  return haystack.slice(0, needle.length) === needle;
-}
-
-function extractCloses(field: string, closes: string[]) : string {
+function extractCloses(field: string, closes: string[]): string {
   return field.replace(CLOSES_MATCHER, function() {
     closes.push(arguments[8]);
     return ' ';
   });
 }
+
+export default new AngularBlueprint();
