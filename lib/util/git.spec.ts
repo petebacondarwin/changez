@@ -48,8 +48,8 @@ describe('GitRepo', () => {
 
   describe('latestTag', () => {
     it('should return the most recent tag for the given branch', () => {
-      const tag = repo.latestTag({ branch: 'test-branch' });
-      expect(tag).to.equal('v1.0.0');
+      const tag = repo.latestTag({ branch: 'test-1' });
+      expect(tag).to.equal('test-start-tag');
     });
   });
 
