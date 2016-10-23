@@ -25,7 +25,7 @@ const version = program['versionNumber'];
 const codename = program['codename'];
 const outfile = resolve(program['outfile']);
 const stable = program['stable'];
-const blueprintPath = program['blueprint'] || '../lib/blueprints/angularjs';
+const blueprintPath = program['blueprint'] || 'changez-angular';
 const blueprint = require(blueprintPath).default as IBlueprint;
 log.setLevel(program['logLevel']);
 

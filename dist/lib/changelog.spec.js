@@ -4,13 +4,13 @@ var changelog_1 = require('./changelog');
 var git_1 = require('./util/git');
 var changez_angular_1 = require('changez-angular');
 describe('Changelog', function () {
-    var parser;
+    var blueprint;
     var repo;
     var changelog;
     beforeEach(function () {
-        parser = new changez_angular_1.AngularBlueprint();
+        blueprint = new changez_angular_1.AngularBlueprint();
         repo = new git_1.GitRepo();
-        changelog = new changelog_1.Changelog(parser, repo, { info: function () { } });
+        changelog = new changelog_1.Changelog(blueprint, repo, { info: function () { } });
     });
     describe('getChanges()', function () {
         it('should filter commits that are in both branches', function () {

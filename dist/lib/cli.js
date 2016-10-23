@@ -23,7 +23,7 @@ var version = program['versionNumber'];
 var codename = program['codename'];
 var outfile = path_1.resolve(program['outfile']);
 var stable = program['stable'];
-var blueprintPath = program['blueprint'] || '../lib/blueprints/angularjs';
+var blueprintPath = program['blueprint'] || 'changez-angular';
 var blueprint = require(blueprintPath).default;
 log.setLevel(program['logLevel']);
 log.info('Generating changelog...');
