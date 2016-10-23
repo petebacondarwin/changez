@@ -1,13 +1,12 @@
 {
-  "name": "changelog",
+  "name": "changez",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
   "bin": {
-    "changelog": "ts-node ./bin/changelog.ts"
+    "changez": "node ./bin/changelog.js"
   },
   "scripts": {
-    "start": "ts-node ./bin/changelog.ts",
+    "start": "node ./bin/changelog.js",
     "test": "mocha --compilers ts:ts-node/register -R spec 'lib/**/*.spec.ts'"
   },
   "author": "",
