@@ -30,7 +30,7 @@ export class AngularBlueprint implements IBlueprint {
   }
 
   getTemplateName(): string {
-    return 'changelog.md';
+    return 'changelog.njk';
   }
 
   parseMessage(message: string): Commit {

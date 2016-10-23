@@ -1,0 +1,22 @@
+{% macro commits(typeTitle, scopes) %}
+{% if scopes -%}
+## {{ typeTitle }}
+{%- for scope, commits in scopes %}
+{% if commits.length == 1 -%}
+- **{{ scope }}:** {{ commits[0].title }} ({{commits[0].hash}})
+{%- else -%}
+- **{{ scope }}:**
+{%- for commit in commits %}
+  - {{ commit.title }} ({{commit.hash}})
+{%- endfor -%}
+{% endif -%}
+{% endfor -%}
+{% endif %}
+{% endmacro -%}
+
+<a name="{{ version }}"></a>
+# {{ version }} {{ codename }} ({{ date.toDateString() }})
+
+{{ commits('Bug Fixes', types['fix']) }}
+{{ commits('New Features', types['feat']) }}
+{{ commits('Performance Improvements', types['perf']) }}

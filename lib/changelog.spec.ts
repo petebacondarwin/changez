@@ -33,18 +33,7 @@ describe('Changelog', () => {
     });
   });
 
-  // describe('getCommits()', () => {
-  //   it('should parse and filter the raw commits', () => {
-  //     const commits = changelog.getCommits('diverge-point', 'test-1')
-  //       .map(commit => commit.toString());
-  //     expect(commits).to.eql([
-  //       'revert:feat(B): title B',
-  //       'feat(E): title E',
-  //       'refactor(B): refactor B',
-  //       'perf(D): title D',
-  //       'chore(C): title C',
-  //       'feat(B): title B'
-  //     ]);
-  //   });
-  // });
+  describe('render()', () => {
+
+  });
 });

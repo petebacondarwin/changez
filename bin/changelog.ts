@@ -1,4 +1,5 @@
 import {resolve} from 'path';
+import {writeFileSync} from 'fs';
 import * as program from 'commander';
 import {GitRepo, IBlueprint, Changelog} from '../lib';
 
@@ -8,14 +9,20 @@ program
   .version(require('../package.json').version)
   .usage('[options] [branch]')
   .description('Generate a changelog for the specified branch (defaulting to the current branch)')
+  .option('-v, --version-number <version>', 'The version of the new release')
+  .option('-c, --codename <codename>', 'The codename of the new release')
+  .option('-o, --outfile [path/to/file]', 'The path to the file where the changelog is written', './changelog.md')
   .option('-p, --path [path/to/repo]', 'Path to repository [defaults to currenty directory]', '.')
   .option('-s, --stable [stable-branch]', 'Stable branch containing containing commits to exclude')
-  .option('-b, --blueprint [path/to/blueprint]', 'Path to the blueprint to use')
+  .option('-b, --blueprint [path/to/blueprint]', 'Path to the blueprint to use; defaults to built-in angularjs')
   .option('-l, --log-level <level>', 'Set the logging level: trace, debug, info, warn, error or fatal', 'info')
   .parse(process.argv);
 
 const repoPath = resolve(program['path']);
 const branch = program.args[0];
+const version = program['versionNumber'];
+const codename = program['codename'];
+const outfile = resolve(program['outfile']);
 const stable = program['stable'];
 const blueprintPath = program['blueprint'] || '../lib/blueprints/angularjs';
 const blueprint = require(blueprintPath).default as IBlueprint;
@@ -32,4 +39,6 @@ log.info(` - blueprint: ${blueprint.name}`);
 const changelog = new Changelog(blueprint, new GitRepo(repoPath), log);
 
 const commits = changelog.getChanges(branch, stable);
-console.log(commits.map(commit => commit.toString()));
+const output = changelog.render(commits, version, codename, new Date());
+writeFileSync(outfile, output, { encoding: 'utf8' });
+log.info(`Changes written to ${outfile}`);

@@ -34,8 +34,19 @@ export class Changelog {
     return changes;
   }
 
-  render(options: {commits: Commit[], version?: string, codename?: string, date?: Date}) {
-    return nunjucks.render(this.blueprint.getTemplateName(), options);
+  render(commits: Commit[], version?: string, codename?: string, date?: Date) {
+    const types: any = groupBy(commits, 'type');
+    Object.keys(types).forEach((type) => {
+      types[type] = groupBy(types[type], 'scope');
+    });
+
+    return nunjucks.render(this.blueprint.getTemplateName(), {
+      version,
+      codename,
+      date,
+      types,
+      commits
+    });
   }
 
   // Get a list of commits between `from` and `to`
@@ -81,4 +92,14 @@ function find<T>(haystack: T[], needle: T, isEqual: (a: T, b: T) => boolean) {
       return haystack[i];
     }
   }
+}
+
+function groupBy<T>(collection: T[], key: string) {
+  const groupObj: { [key: string]: T[]} = {};
+  collection.forEach((item) => {
+    const group = groupObj[item[key]] || [];
+    group.push(item);
+    groupObj[item[key]] = group;
+  });
+  return groupObj;
 }
