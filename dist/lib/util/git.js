@@ -7,6 +7,9 @@ var GitRepo = (function () {
         if (pathToRepo === void 0) { pathToRepo = '.'; }
         this.pathToRepo = path_1.resolve(pathToRepo);
     }
+    GitRepo.prototype.currentBranch = function () {
+        return this.executeCommand('symbolic-ref', ['--short HEAD'], undefined);
+    };
     // default is format is hash-subject-body
     GitRepo.prototype.rawCommits = function (_a) {
         var debug = _a.debug, _b = _a.format, format = _b === void 0 ? '%H%n%s%n%b' : _b, _c = _a.from, from = _c === void 0 ? '' : _c, _d = _a.to, to = _d === void 0 ? 'HEAD' : _d;

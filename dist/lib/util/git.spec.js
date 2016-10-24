@@ -6,6 +6,12 @@ describe('GitRepo', function () {
     beforeEach(function () {
         repo = new git_1.GitRepo();
     });
+    describe('getCurrentBranch()', function () {
+        it('should return the current branch name', function () {
+            // not a clever test in case we are not on master :-)
+            // expect(repo.currentBranch()).to.equal('master');
+        });
+    });
     describe('rawCommits()', function () {
         describe('default config', function () {
             it('should return init commit last', function () {

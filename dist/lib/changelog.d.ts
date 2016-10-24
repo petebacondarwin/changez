@@ -6,7 +6,7 @@ export declare class Changelog {
     private repo;
     private log;
     constructor(blueprint: IBlueprint, repo: GitRepo, log: any);
-    getChanges(fromBranch: string, excludeBranch?: string): Commit[];
+    getChanges(fromBranch?: string, excludeBranch?: string): Commit[];
     render(commits: Commit[], version?: string, codename?: string, date?: Date): string;
     protected getCommits(from: string, to: string): Commit[];
     protected excludeCommits(commits: Commit[], excludes: Commit[]): Commit[];

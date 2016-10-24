@@ -9,6 +9,7 @@ var Changelog = (function () {
     }
     // Get a list of commits in the fromBranch that were not cherry-picked from the excludeBranch
     Changelog.prototype.getChanges = function (fromBranch, excludeBranch) {
+        if (fromBranch === void 0) { fromBranch = this.repo.currentBranch(); }
         var lastTagInFromBranch = this.repo.latestTag({ branch: fromBranch });
         var commonCommit = this.repo.commonAncestor({ left: fromBranch, right: excludeBranch });
         var changes = this.getCommits(lastTagInFromBranch, fromBranch);
@@ -31,12 +32,15 @@ var Changelog = (function () {
         Object.keys(types).forEach(function (type) {
             types[type] = groupBy(types[type], 'scope');
         });
+        var breakingChanges = commits.filter(function (commit) { return !!commit.bcMessage; });
+        this.log.info("There are " + breakingChanges.length + " commit(s) with breaking change notices.");
         return nunjucks.render(this.blueprint.getTemplateName(), {
             version: version,
             codename: codename,
             date: date,
             types: types,
-            commits: commits
+            commits: commits,
+            breakingChanges: breakingChanges
         });
     };
     // Get a list of commits between `from` and `to`

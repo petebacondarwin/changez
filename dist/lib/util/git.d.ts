@@ -1,6 +1,7 @@
 export declare class GitRepo {
     pathToRepo: string;
     constructor(pathToRepo?: string);
+    currentBranch(): string;
     rawCommits({debug, format, from, to}: {
         debug?: (value: string) => void;
         format?: string;
