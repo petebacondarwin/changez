@@ -1,6 +1,6 @@
 {
   "name": "changez",
-  "version": "1.0.14",
+  "version": "1.1.0",
   "description": "Yet another flexible changelog generator.",
   "main": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
@@ -12,7 +12,7 @@
     "prepublish": "rm -rf dist && tsc",
     "test": "mocha --compilers ts:ts-node/register -R spec 'lib/**/*.spec.ts'"
   },
-  "author": "",
+  "author": "Pete Bacon Darwin",
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^3.4.34",
@@ -32,7 +32,6 @@
   "dependencies": {
     "commander": "^2.9.0",
     "nunjucks": "^2.5.2",
-    "rxjs": "^5.0.0-rc.1",
     "shelljs": "^0.7.4",
     "simple-node-logger": "^0.93.12"
   }
