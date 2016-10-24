@@ -11,6 +11,10 @@ export class GitRepo {
     this.pathToRepo = resolve(pathToRepo);
   }
 
+  currentBranch() {
+    return this.executeCommand('symbolic-ref', ['--short HEAD'], undefined);
+  }
+
   // default is format is hash-subject-body
   rawCommits({debug, format = '%H%n%s%n%b', from = '', to = 'HEAD'}:
               {debug?: (value: string) => void, format?: string, from?: string, to?: string}) {

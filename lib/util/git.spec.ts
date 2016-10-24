@@ -8,6 +8,13 @@ describe('GitRepo', () => {
     repo = new GitRepo();
   });
 
+  describe('getCurrentBranch()', () => {
+    it('should return the current branch name', () => {
+      // not a clever test in case we are not on master :-)
+      // expect(repo.currentBranch()).to.equal('master');
+    });
+  });
+
   describe('rawCommits()', () => {
     describe('default config', () => {
       it('should return init commit last', () => {
