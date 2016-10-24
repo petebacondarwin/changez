@@ -40,12 +40,15 @@ export class Changelog {
       types[type] = groupBy(types[type], 'scope');
     });
 
+    const breakingChanges = commits.filter(commit => commit.bcMessage);
+
     return nunjucks.render(this.blueprint.getTemplateName(), {
       version,
       codename,
       date,
       types,
-      commits
+      commits,
+      breakingChanges
     });
   }
 
