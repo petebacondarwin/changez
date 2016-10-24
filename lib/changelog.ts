@@ -70,7 +70,15 @@ export class Changelog {
 
   // Use the current parser to filter the commit stream
   protected filterCommits(commit: Commit[]) {
-    return commit.filter(commit => commit && this.blueprint.filterCommit(commit));
+    return commit.filter(commit => {
+      try {
+        return commit && this.blueprint.filterCommit(commit);
+      } catch (e) {
+        this.log.warn(e.message);
+        this.log.warn(commit.toString());
+        return true;
+      }
+    });
   }
 
   protected filterReverts(commits: Commit[]): Commit[] {

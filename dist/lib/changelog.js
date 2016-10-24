@@ -61,7 +61,16 @@ var Changelog = (function () {
     // Use the current parser to filter the commit stream
     Changelog.prototype.filterCommits = function (commit) {
         var _this = this;
-        return commit.filter(function (commit) { return commit && _this.blueprint.filterCommit(commit); });
+        return commit.filter(function (commit) {
+            try {
+                return commit && _this.blueprint.filterCommit(commit);
+            }
+            catch (e) {
+                _this.log.warn(e.message);
+                _this.log.warn(commit.toString());
+                return true;
+            }
+        });
     };
     Changelog.prototype.filterReverts = function (commits) {
         var _this = this;
