@@ -9,7 +9,7 @@ export class Changelog {
   }
 
   // Get a list of commits in the fromBranch that were not cherry-picked from the excludeBranch
-  getChanges(fromBranch: string, excludeBranch?: string) {
+  getChanges(fromBranch: string = this.repo.currentBranch(), excludeBranch?: string) {
 
     const lastTagInFromBranch = this.repo.latestTag({branch: fromBranch});
     const commonCommit = this.repo.commonAncestor({left: fromBranch, right: excludeBranch});
@@ -40,7 +40,8 @@ export class Changelog {
       types[type] = groupBy(types[type], 'scope');
     });
 
-    const breakingChanges = commits.filter(commit => commit.bcMessage);
+    const breakingChanges = commits.filter(commit => !!commit.bcMessage);
+    this.log.info(`There are ${breakingChanges.length} commit(s) with breaking change notices.`);
 
     return nunjucks.render(this.blueprint.getTemplateName(), {
       version,
