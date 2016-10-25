@@ -6,9 +6,12 @@ const SPLIT_MARKER = '------------------------ >8 ------------------------';
 export class GitRepo {
 
   pathToRepo: string;
+  org: string;
+  repo: string;
 
-  constructor(pathToRepo: string = '.') {
+  constructor(pathToRepo: string = '.', remote = 'origin') {
     this.pathToRepo = resolve(pathToRepo);
+    this.computeRemoteInfo(remote);
   }
 
   currentBranch() {
@@ -34,6 +37,12 @@ export class GitRepo {
 
   commonAncestor({left, right, debug}: {left: string, right: string, debug?: (value: string) => void}) {
     return this.executeCommand('merge-base', [left, right], debug);
+  }
+
+  private computeRemoteInfo(remote: string) {
+    const remoteUrlParts = this.executeCommand('remote', ['get-url', remote], undefined).split('/');
+    this.repo = remoteUrlParts.pop();
+    this.org = remoteUrlParts.pop();
   }
 
   private executeCommand(command: string, args: string[], debug: (value: string) => void): string {
