@@ -44,6 +44,8 @@ export class Changelog {
     this.log.info(`There are ${breakingChanges.length} commit(s) with breaking change notices.`);
 
     return nunjucks.render(this.blueprint.getTemplateName(), {
+      org: this.repo.org,
+      repo: this.repo.repo,
       version,
       codename,
       date,
