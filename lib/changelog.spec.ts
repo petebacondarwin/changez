@@ -3,7 +3,7 @@ import {Changelog} from './changelog';
 import {Commit} from './commit';
 import {GitRepo} from './util/git';
 import {IBlueprint} from './blueprint';
-import {AngularBlueprint} from 'changez-angular';
+import {MockBlueprint} from './blueprint-mock';
 
 describe('Changelog', () => {
   let blueprint: IBlueprint;
@@ -11,7 +11,7 @@ describe('Changelog', () => {
   let changelog: Changelog;
 
   beforeEach(() => {
-    blueprint = new AngularBlueprint();
+    blueprint = new MockBlueprint();
     repo = new GitRepo();
     changelog = new Changelog(blueprint, repo, { info() {} });
   });
