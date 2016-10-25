@@ -1,6 +1,6 @@
 export interface Issue {
-    org: string;
-    repo: string;
+    org?: string;
+    repo?: string;
     id: string;
 }
 export declare class Commit {

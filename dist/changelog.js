@@ -5,7 +5,7 @@ var Changelog = (function () {
         this.blueprint = blueprint;
         this.repo = repo;
         this.log = log;
-        nunjucks.configure(blueprint.getTemplateFolder(), {});
+        nunjucks.configure(blueprint.getTemplateFolder(), { autoescape: false });
     }
     // Get a list of commits in the fromBranch that were not cherry-picked from the excludeBranch
     Changelog.prototype.getChanges = function (fromBranch, excludeBranch) {
