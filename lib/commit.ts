@@ -1,3 +1,9 @@
+export interface Issue {
+  org: string;
+  repo: string;
+  id: string;
+}
+
 export class Commit {
   hash: string;
   isRevert: boolean = false;
@@ -7,7 +13,7 @@ export class Commit {
   title: string;
   body: string;
   bcMessage: string;
-  closes: string[];
+  closes: Issue[];
 
   constructor(public raw: string = '') {}
 
