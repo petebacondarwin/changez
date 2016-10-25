@@ -5,7 +5,7 @@ import {GitRepo} from './util/git';
 
 export class Changelog {
   constructor(private blueprint: IBlueprint, private repo: GitRepo, private log) {
-    nunjucks.configure(blueprint.getTemplateFolder(), {});
+    nunjucks.configure(blueprint.getTemplateFolder(), { autoescape: false });
   }
 
   // Get a list of commits in the fromBranch that were not cherry-picked from the excludeBranch
