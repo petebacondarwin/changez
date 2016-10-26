@@ -1,4 +1,5 @@
 import {Commit} from './commit';
+import {Environment} from 'nunjucks';
 
 export interface IBlueprint {
   name: string;
@@ -7,4 +8,5 @@ export interface IBlueprint {
   parseMessage(message: string): Commit;
   filterCommit(commit: Commit): boolean;
   compareCommits(left: Commit, right: Commit): boolean;
+  configureRenderer?(env: Environment);
 }
