@@ -1,5 +1,6 @@
 import {resolve} from 'path';
 import {Commit, Issue, IBlueprint} from '.';
+import {Environment} from 'nunjucks';
 
 const REVERT_MATCHER = /^(revert:|Revert )(.+)/;
 
@@ -24,6 +25,7 @@ export function setWhitelist(value: string[]) {
 export class MockBlueprint implements IBlueprint {
 
   name = 'AngularJS';
+  env: Environment;
 
   getTemplateFolder(): string {
     return resolve(__dirname, 'templates');
@@ -80,6 +82,10 @@ export class MockBlueprint implements IBlueprint {
 
   compareCommits(left: Commit, right: Commit) {
     return left.toString() === right.toString();
+  }
+
+  configureRenderer(env: Environment) {
+    this.env = env;
   }
 }
 

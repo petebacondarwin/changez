@@ -4,9 +4,10 @@ import {Commit} from './commit';
 import {GitRepo} from './util/git';
 import {IBlueprint} from './blueprint';
 import {MockBlueprint} from './blueprint-mock';
+import {Environment} from 'nunjucks';
 
 describe('Changelog', () => {
-  let blueprint: IBlueprint;
+  let blueprint: MockBlueprint;
   let repo: GitRepo;
   let changelog: Changelog;
 
@@ -35,6 +36,8 @@ describe('Changelog', () => {
   });
 
   describe('render()', () => {
-
+    it('should call `configureRenderer` if it is available', () => {
+      expect(blueprint.env).to.be.instanceof(Environment);
+    })
   });
 });
