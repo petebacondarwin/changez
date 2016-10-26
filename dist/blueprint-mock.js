@@ -68,6 +68,9 @@ var MockBlueprint = (function () {
     MockBlueprint.prototype.compareCommits = function (left, right) {
         return left.toString() === right.toString();
     };
+    MockBlueprint.prototype.configureRenderer = function (env) {
+        this.env = env;
+    };
     return MockBlueprint;
 }());
 exports.MockBlueprint = MockBlueprint;

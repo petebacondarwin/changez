@@ -1,10 +1,10 @@
 {
   "name": "changez",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Yet another flexible changelog generator.",
-  "main": "./dist/lib/index.js",
-  "types": "./dist/lib/index.d.ts",
-  "bin": "./dist/lib/cli.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": "./dist/cli.js",
   "files": [
     "dist"
   ],
@@ -13,7 +13,7 @@
     "prepublish": "npm build",
     "build": "rm -rf dist && rm -rf typings && typings install && tsc",
     "watch": "tsc -w",
-    "test": "tsc && mocha -R spec 'dist/lib/**/*.spec.js'"
+    "test": "npm run build && mocha -R spec 'dist/**/*.spec.js'"
   },
   "author": "Pete Bacon Darwin",
   "license": "MIT",
