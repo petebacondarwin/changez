@@ -38,6 +38,6 @@ describe('Changelog', () => {
   describe('render()', () => {
     it('should call `configureRenderer` if it is available', () => {
       expect(blueprint.env).to.be.instanceof(Environment);
-    })
+    });
   });
 });
