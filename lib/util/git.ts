@@ -80,13 +80,13 @@ export class GitRepo {
     return this.executeCommand('merge-base', [left, right], debug);
   }
 
-  private computeRemoteInfo(remote: string) {
+  public computeRemoteInfo(remote: string) {
     const remoteUrlParts = this.executeCommand('remote', ['get-url', remote], undefined).split('/');
-    this.repo = remoteUrlParts.pop();
+    this.repo = remoteUrlParts.pop().replace(/\.git$/, '');
     this.org = remoteUrlParts.pop();
   }
 
-  private executeCommand(command: string, args: string[], debug: (value: string) => void): string {
+  public executeCommand(command: string, args: string[], debug: (value: string) => void): string {
     args.unshift(command);
 
     if (debug) {

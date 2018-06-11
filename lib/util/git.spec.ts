@@ -1,10 +1,13 @@
 import {GitRepo} from './git';
-import {expect} from 'chai';
+import {expect, use} from 'chai';
+import { fake, replace } from 'sinon';
+import * as sinonChai from 'sinon-chai';
 
 describe('GitRepo', () => {
   let repo: GitRepo;
 
   beforeEach(() => {
+    use(sinonChai);
     repo = new GitRepo();
   });
 
@@ -64,6 +67,28 @@ describe('GitRepo', () => {
     it('should return the most recent ancestor', () => {
       const commit = repo.commonAncestor({ left: 'test-branch', right: 'master' });
       expect(commit).to.equal('196ba6cad9dee140079ed48cf48088c86050c28a');
+    });
+  });
+
+  describe('computeRemoteInfo', () => {
+    it('should execute a git remote command', () => {
+      const spy = replace(repo, 'executeCommand', fake.returns('https://github.com/angular/angular.js'));
+      repo.computeRemoteInfo('origin');
+      expect(spy).to.have.been.calledWith('remote', ['get-url', 'origin']);
+    });
+
+    it('should extract the org and repo from the remote github path', () => {
+      const spy = replace(repo, 'executeCommand', fake.returns('https://github.com/angular/angular.js'));
+      repo.computeRemoteInfo('origin');
+      expect(repo.org).to.equal('angular');
+      expect(repo.repo).to.equal('angular.js');
+    });
+
+    it('should remove ".git" from the end of the remote path', () => {
+      const spy = replace(repo, 'executeCommand', fake.returns('https://github.com/angular/angular.js.git'));
+      repo.computeRemoteInfo('origin');
+      expect(repo.org).to.equal('angular');
+      expect(repo.repo).to.equal('angular.js');
     });
   });
 });
