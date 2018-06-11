@@ -1,4 +1,3 @@
-/// <reference types="nunjucks" />
 import { Commit, IBlueprint } from '.';
 import { Environment } from 'nunjucks';
 export declare function setWhitelist(value: string[]): void;
@@ -12,5 +11,5 @@ export declare class MockBlueprint implements IBlueprint {
     compareCommits(left: Commit, right: Commit): boolean;
     configureRenderer(env: Environment): void;
 }
-declare var _default: MockBlueprint;
+declare const _default: MockBlueprint;
 export default _default;

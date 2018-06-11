@@ -1,6 +1,7 @@
 "use strict";
-var nunjucks = require('nunjucks');
-var Changelog = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var nunjucks = require("nunjucks");
+var Changelog = /** @class */ (function () {
     function Changelog(blueprint, repo, log) {
         this.blueprint = blueprint;
         this.repo = repo;

@@ -1,9 +1,10 @@
 "use strict";
-var chai_1 = require('chai');
-var changelog_1 = require('./changelog');
-var git_1 = require('./util/git');
-var blueprint_mock_1 = require('./blueprint-mock');
-var nunjucks_1 = require('nunjucks');
+Object.defineProperty(exports, "__esModule", { value: true });
+var chai_1 = require("chai");
+var changelog_1 = require("./changelog");
+var git_1 = require("./util/git");
+var blueprint_mock_1 = require("./blueprint-mock");
+var nunjucks_1 = require("nunjucks");
 describe('Changelog', function () {
     var blueprint;
     var repo;

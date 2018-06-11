@@ -1,6 +1,7 @@
 "use strict";
-var path_1 = require('path');
-var _1 = require('.');
+Object.defineProperty(exports, "__esModule", { value: true });
+var path_1 = require("path");
+var _1 = require(".");
 var REVERT_MATCHER = /^(revert:|Revert )(.+)/;
 //                      1111111  2222222         3333
 var FORMAT_MATCHER = /([^(]+)\(([^)]+)\)\s*:\s*(.+)/;
@@ -16,7 +17,7 @@ function setWhitelist(value) {
     typeWhiteList = value;
 }
 exports.setWhitelist = setWhitelist;
-var MockBlueprint = (function () {
+var MockBlueprint = /** @class */ (function () {
     function MockBlueprint() {
         this.name = 'AngularJS';
     }
@@ -84,5 +85,4 @@ function extractCloses(field, closes) {
         return ' ';
     });
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = new MockBlueprint();

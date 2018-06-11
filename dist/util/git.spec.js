@@ -1,9 +1,13 @@
 "use strict";
-var git_1 = require('./git');
-var chai_1 = require('chai');
+Object.defineProperty(exports, "__esModule", { value: true });
+var git_1 = require("./git");
+var chai_1 = require("chai");
+var sinon_1 = require("sinon");
+var sinonChai = require("sinon-chai");
 describe('GitRepo', function () {
     var repo;
     beforeEach(function () {
+        chai_1.use(sinonChai);
         repo = new git_1.GitRepo();
     });
     describe('getCurrentBranch()', function () {
@@ -56,6 +60,25 @@ describe('GitRepo', function () {
         it('should return the most recent ancestor', function () {
             var commit = repo.commonAncestor({ left: 'test-branch', right: 'master' });
             chai_1.expect(commit).to.equal('196ba6cad9dee140079ed48cf48088c86050c28a');
+        });
+    });
+    describe('computeRemoteInfo', function () {
+        it('should execute a git remote command', function () {
+            var spy = sinon_1.replace(repo, 'executeCommand', sinon_1.fake.returns('https://github.com/angular/angular.js'));
+            repo.computeRemoteInfo('origin');
+            chai_1.expect(spy).to.have.been.calledWith('remote', ['get-url', 'origin']);
+        });
+        it('should extract the org and repo from the remote github path', function () {
+            var spy = sinon_1.replace(repo, 'executeCommand', sinon_1.fake.returns('https://github.com/angular/angular.js'));
+            repo.computeRemoteInfo('origin');
+            chai_1.expect(repo.org).to.equal('angular');
+            chai_1.expect(repo.repo).to.equal('angular.js');
+        });
+        it('should remove ".git" from the end of the remote path', function () {
+            var spy = sinon_1.replace(repo, 'executeCommand', sinon_1.fake.returns('https://github.com/angular/angular.js.git'));
+            repo.computeRemoteInfo('origin');
+            chai_1.expect(repo.org).to.equal('angular');
+            chai_1.expect(repo.repo).to.equal('angular.js');
         });
     });
 });

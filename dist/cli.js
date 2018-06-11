@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 "use strict";
-var path_1 = require('path');
-var fs_1 = require('fs');
-var program = require('commander');
-var _1 = require('.');
+Object.defineProperty(exports, "__esModule", { value: true });
+var path_1 = require("path");
+var fs_1 = require("fs");
+var program = require("commander");
+var _1 = require(".");
 var findPackage = require('find-package');
 var log = require('simple-node-logger').createSimpleLogger();
 program
