@@ -11,7 +11,7 @@
   "scripts": {
     "postinstall": "npm build",
     "prepublish": "npm build",
-    "build": "rm -rf dist && rm -rf typings && typings install && tsc",
+    "build": "rm -rf dist && tsc",
     "watch": "tsc -w",
     "test": "npm run build && mocha -R spec 'dist/**/*.spec.js'"
   },
@@ -20,26 +20,27 @@
   "devDependencies": {
     "@types/chai": "^3.4.34",
     "@types/commander": "^2.3.30",
-    "@types/es6-shim": "^0.31.32",
-    "@types/node": "^6.0.45",
+    "@types/es6-shim": "^0.31.39",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^6.14.4",
     "@types/nunjucks": "0.0.32",
     "@types/shelljs": "^0.3.32",
-    "@types/sinon": "^5.0.1",
-    "@types/sinon-chai": "^2.7.32",
-    "chai": "^3.5.0",
-    "mocha": "^3.1.2",
-    "sinon": "^5.1.0",
-    "sinon-chai": "^3.1.0",
+    "@types/sinon": "^7.0.11",
+    "@types/sinon-chai": "^2.7.35",
+    "chai": "^4.2.0",
+    "js-yaml": "^3.13.0",
+    "mocha": "^6.0.2",
+    "sinon": "^7.3.1",
+    "sinon-chai": "^3.3.0",
     "ts-node": "^1.6.0",
     "tslint": "^3.15.1",
-    "typescript": "^2.0.3",
-    "typings": "^1.4.0"
+    "typescript": "^3.4.1"
   },
   "dependencies": {
-    "commander": "^2.9.0",
+    "commander": "^2.19.0",
     "find-package": "^1.0.0",
-    "nunjucks": "^2.5.2",
+    "nunjucks": "^3.2.0",
     "shelljs": "^0.7.4",
-    "simple-node-logger": "^0.93.12"
+    "simple-node-logger": "^0.93.42"
   }
 }
