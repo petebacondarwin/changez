@@ -19,15 +19,16 @@ program
     .option('-b, --blueprint [path/to/blueprint]', 'Path to the blueprint to use; defaults to built-in angularjs')
     .option('-l, --log-level <level>', 'Set the logging level: trace, debug, info, warn, error or fatal', 'info')
     .parse(process.argv);
-const repoPath = path_1.resolve(program['path']);
+const opts = program.opts();
+const repoPath = path_1.resolve(opts['path']);
 const branch = program.args[0];
-const version = program['versionNumber'];
-const codename = program['codename'];
-const outfile = path_1.resolve(program['outfile']);
-const stable = program['stable'];
-const blueprintPath = program['blueprint'] || 'changez-angular';
+const version = opts['versionNumber'];
+const codename = opts['codename'];
+const outfile = path_1.resolve(opts['outfile']);
+const stable = opts['stable'];
+const blueprintPath = opts['blueprint'] || 'changez-angular';
 const blueprint = require(blueprintPath).default;
-log.setLevel(program['logLevel']);
+log.setLevel(opts['logLevel']);
 log.info('Generating changelog...');
 log.info(` - path to repo: "${repoPath}"`);
 log.info(` - branch: "${branch || '-- current --'}"`);

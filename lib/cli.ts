@@ -20,15 +20,16 @@ program
   .option('-l, --log-level <level>', 'Set the logging level: trace, debug, info, warn, error or fatal', 'info')
   .parse(process.argv);
 
-const repoPath = resolve(program['path']);
+const opts = program.opts();
+const repoPath = resolve(opts['path']);
 const branch = program.args[0];
-const version = program['versionNumber'];
-const codename = program['codename'];
-const outfile = resolve(program['outfile']);
-const stable = program['stable'];
-const blueprintPath = program['blueprint'] || 'changez-angular';
+const version = opts['versionNumber'];
+const codename = opts['codename'];
+const outfile = resolve(opts['outfile']);
+const stable = opts['stable'];
+const blueprintPath = opts['blueprint'] || 'changez-angular';
 const blueprint = require(blueprintPath).default as IBlueprint;
-log.setLevel(program['logLevel']);
+log.setLevel(opts['logLevel']);
 
 log.info('Generating changelog...');
 log.info(` - path to repo: "${repoPath}"`);
