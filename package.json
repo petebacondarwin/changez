@@ -1,6 +1,6 @@
 {
   "name": "changez",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Yet another flexible changelog generator.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
